@@ -203,9 +203,9 @@ prep.terms <- function(sequences, seq.padding,
 #' @param r A fitted rmm object estimated using \code{rmm}
 #'
 #' @export
-print.rmm <- function(r,...){
-  cat(paste0('Model of ',r$N,' sequences (L=',r$L,') with ',r$D,' lags\n'))
-  cat(paste0('Elements: ',r$S,', ','Lambda: ',r$lambda,'\n'))
+print.rmm <- function(model,...){
+  cat(paste0('Model of ',model$N,' sequences (L=',model$L,') with ',model$D,' lags\n'))
+  cat(paste0('Elements: ',model$S,', ','Lambda: ',model$lambda,'\n'))
   cat('\n')
   # if('beta.se' %in% names(r)){
   #   coef <- cbind(beta=round(r$beta,4),
@@ -215,17 +215,19 @@ print.rmm <- function(r,...){
   #   coef <- cbind(beta=round(r$beta,4))
   #   colnames(coef) <- colnames(r$beta)
   # }
-  cat('Beta Coefficients:\n')
-  if('beta.se' %in% names(r)){
-    print.coef.matrix(r$beta,r$beta.se,...)
-  }else{
-    print.matrix(r$beta)
+  if(prod(dim(model$beta))>0){
+    cat('Beta Coefficients:\n')
+    if('beta.se' %in% names(model)){
+      print.coef.matrix(model$beta,model$beta.se,...)
+    }else{
+      print.matrix(model$beta)
+    }
   }
   cat('\n')
-  cat(paste0('Log Likelihood: ',round(r$loglik,2),', '))
-  cat(paste0('AIC: ',round(r$AIC,2),', '))
-  cat(paste0('BIC: ',round(r$BIC,2),'\n'))
-  cat(paste0('Convergence Code: ',r$opt$convergence,' - ',r$opt$message,'\n'))
+  cat(paste0('Log Likelihood: ',round(model$loglik,2),', '))
+  cat(paste0('AIC: ',round(model$AIC,2),', '))
+  cat(paste0('BIC: ',round(model$BIC,2),'\n'))
+  cat(paste0('Convergence Code: ',model$opt$convergence,' - ',model$opt$message,'\n'))
 }
 
 #' Estimate a Recurrent Multinomial Model
@@ -286,10 +288,10 @@ print.rmm <- function(r,...){
 #' @return An fitted recurrent multinomial model of class 'rmm'
 #' @export
 rmm <- function(sequences,D,
-                           prob.terms=c(),
-                           recur.terms=c(),
-                           recur.seq.covar=list(),
-                           hessian=TRUE, ...){
+                prob.terms=c(),
+                recur.terms=c(),
+                recur.seq.covar=list(),
+                hessian=TRUE, ...){
 
   ps <- prep.terms(sequences,seq.padding=D,
                    prob.terms=prob.terms,
@@ -309,9 +311,9 @@ rmm <- function(sequences,D,
 #' rmm model
 #' @export
 predict.rmm <- function(model, newdata,
-                          prob.terms=c(),
-                          corr.terms=c(),
-                          corr.seq.covar=list(), ...){
+                        prob.terms=c(),
+                        corr.terms=c(),
+                        corr.seq.covar=list(), ...){
   ps <- prep.terms(newdata,seq.padding=model$D,
                    prob.terms=prob.terms,
                    corr.terms=corr.terms,

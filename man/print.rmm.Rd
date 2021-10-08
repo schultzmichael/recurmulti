@@ -4,7 +4,7 @@
 \alias{print.rmm}
 \title{Print an RMM}
 \usage{
-\method{print}{rmm}(r, ...)
+\method{print}{rmm}(model, ...)
 }
 \arguments{
 \item{r}{A fitted rmm object estimated using \code{rmm}}
