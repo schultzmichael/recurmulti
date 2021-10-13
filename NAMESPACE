@@ -2,6 +2,7 @@
 
 S3method(predict,rmm)
 S3method(print,rmm)
+export(infer.rmm)
 export(rmm)
 importFrom(abind,abind)
 importFrom(optimParallel,optimParallel)

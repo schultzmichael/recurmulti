@@ -945,18 +945,6 @@ seq.hessian <- function(r){
 }
 
 
-infer.seq <- function(r){
-  hessian <- seq.hessian(r)
-  theta.se <- decode.params(sqrt(diag(solve(hessian))),r$S,r$J,r$D,r$K,r$P)
-  dimnames(theta.se$eta) <- dimnames(r$eta)
-  dimnames(theta.se$beta) <- dimnames(r$beta)
-  dimnames(theta.se$zeta) <- dimnames(t(r$zeta))
-
-  r$eta.se = theta.se$eta
-  r$beta.se = theta.se$beta
-  r$zeta.se = t(theta.se$zeta)
-  r
-}
 
 ##############
 decode.hessian <- function(r,partial=FALSE){

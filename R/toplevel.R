@@ -285,7 +285,7 @@ print.rmm <- function(model,...){
 #' belonging to a certain category, sequences of a certain type, timing
 #' specific recurrences, or combinations of those effects.
 #'
-#' @return An fitted recurrent multinomial model of class 'rmm'
+#' @return A fitted recurrent multinomial model of class 'rmm'
 #' @export
 rmm <- function(sequences,D,
                 prob.terms=c(),
@@ -300,12 +300,36 @@ rmm <- function(sequences,D,
 
   out <- fit.seq(ps$s,D,ps$X,ps$Z,ps$Q,ps$P, ...)
   if(hessian)
-    out <- infer.seq(out)
+    out <- infer.rmm(out)
 
 
   class(out) <- 'rmm'
   out
 }
+
+#' Inference calculations for RMMs
+#'
+#' Calculate the standard errors of coefficients from the
+#' Hessian matrix if not done automatically in \code{rmm}, i.e. when
+#' \code{hessian = FALSE}
+#'
+#' @param model A fitted recurrent multinomial model of class 'rmm'
+#' @return A fitted recurrent multinomial model of class 'rmm' with standard
+#' errors eta.se, beta.se, zeta.se for eta, beta, and zeta respectively
+#' @export
+infer.rmm <- function(r){
+  hessian <- seq.hessian(r)
+  theta.se <- decode.params(sqrt(diag(solve(hessian))),r$S,r$J,r$D,r$K,r$P)
+  dimnames(theta.se$eta) <- dimnames(r$eta)
+  dimnames(theta.se$beta) <- dimnames(r$beta)
+  dimnames(theta.se$zeta) <- dimnames(t(r$zeta))
+
+  r$eta.se = theta.se$eta
+  r$beta.se = theta.se$beta
+  r$zeta.se = t(theta.se$zeta)
+  r
+}
+
 
 #' @describeIn rmm Evaluate the probability of observed sequences on a prefit
 #' rmm model
@@ -323,3 +347,6 @@ predict.rmm <- function(model, newdata,
   class(out) <- 'rmm'
   out
 }
+
+
+

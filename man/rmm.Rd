@@ -52,7 +52,7 @@ Defaults to 0.}
 probability coefficients respectively}
 }
 \value{
-An fitted recurrent multinomial model of class 'rmm'
+A fitted recurrent multinomial model of class 'rmm'
 }
 \description{
 \code{RMM} estimates a recurrent mutlinomial model of specified length with
