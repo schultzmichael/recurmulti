@@ -336,12 +336,12 @@ infer.rmm <- function(r){
 #' @export
 predict.rmm <- function(model, newdata,
                         prob.terms=c(),
-                        corr.terms=c(),
-                        corr.seq.covar=list(), ...){
+                        recur.terms=c(),
+                        recur.seq.covar=list(), ...){
   ps <- prep.terms(newdata,seq.padding=model$D,
                    prob.terms=prob.terms,
-                   corr.terms=corr.terms,
-                   corr.seq.covar=corr.seq.covar,...)
+                   corr.terms=recur.terms,
+                   corr.seq.covar=recur.seq.covar,...)
 
   out <- eval.seq(s=ps$s,X=ps$X,Z=ps$Z,Q=ps$Q,P=ps$P,beta=model$beta, ...)
   class(out) <- 'rmm'

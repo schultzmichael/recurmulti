@@ -19,8 +19,8 @@ rmm(
   model,
   newdata,
   prob.terms = c(),
-  corr.terms = c(),
-  corr.seq.covar = list(),
+  recur.terms = c(),
+  recur.seq.covar = list(),
   ...
 )
 }
