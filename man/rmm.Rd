@@ -21,6 +21,7 @@ rmm(
   prob.terms = c(),
   recur.terms = c(),
   recur.seq.covar = list(),
+  lambda = NA,
   ...
 )
 }
@@ -36,6 +37,9 @@ matrix predicting recurrence coefficients. See details.}
 \item{hessian}{Logical value indicating whether the hessian should be
 computed}
 
+\item{lambda, lambda2}{Regularization parameter for recurrence and baseline
+probability coefficients respectively}
+
 \item{recurr.seq.covar}{A list of functions for defining custom recurrence
 covariates}
 
@@ -47,9 +51,6 @@ Defaults to 0.}
 \item{cores}{Number of cores to use in parallel computation}
 
 \item{num.grad}{Logical value indicating whether to use a numerical gradient}
-
-\item{lambda, lambda2}{Regularization parameter for recurrence and baseline
-probability coefficients respectively}
 }
 \value{
 A fitted recurrent multinomial model of class 'rmm'

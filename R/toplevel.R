@@ -337,13 +337,18 @@ infer.rmm <- function(r){
 predict.rmm <- function(model, newdata,
                         prob.terms=c(),
                         recur.terms=c(),
-                        recur.seq.covar=list(), ...){
+                        recur.seq.covar=list(),
+                        lambda = NA, ...){
   ps <- prep.terms(newdata,seq.padding=model$D,
                    prob.terms=prob.terms,
                    corr.terms=recur.terms,
                    corr.seq.covar=recur.seq.covar,...)
 
-  out <- eval.seq(s=ps$s,X=ps$X,Z=ps$Z,Q=ps$Q,P=ps$P,beta=model$beta, ...)
+
+  if(is.na(lambda))
+    lambda <- model$lambda
+
+  out <- eval.seq(s=ps$s,X=ps$X,Z=ps$Z,Q=ps$Q,P=ps$P,beta=model$beta, lambda=lambda, ...)
   class(out) <- 'rmm'
   out
 }
